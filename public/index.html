@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>鸿蒙字体示例 - 引领AI出版新范式</title>
+    <style>
+      /**
+     * 定义鸿蒙字体
+     * 使用提取后的字体子集（只包含"引领AI出版新范式"这几个字）
+     * 文件大小从 8MB 减小到约 10KB（WOFF2），大大提升加载速度
+     * 
+     * 优先使用 WOFF2 格式（现代浏览器支持，压缩率最高）
+     * 回退到 WOFF 和 TTF 格式以确保兼容性
+     */
+      @font-face {
+        font-family: 'HarmonyOS Sans SC Bold';
+        src: url('./font-subset/HarmonyOS_SansSC_Bold.woff2') format('woff2'), url('./font-subset/HarmonyOS_SansSC_Bold.woff') format('woff'),
+          url('./font-subset/HarmonyOS_SansSC_Bold.ttf') format('truetype');
+        font-weight: bold;
+        font-style: normal;
+        /* 
+       * font-display: swap 确保文字在字体加载期间仍然可见
+       * 避免 FOIT (Flash of Invisible Text) 问题
+       */
+        font-display: swap;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        background: white;
+        border-radius: 20px;
+        padding: 60px 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        max-width: 800px;
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 48px;
+        margin-bottom: 30px;
+        text-align: center;
+        /* 
+       * 应用鸿蒙字体
+       * 只对"引领AI出版新范式"这几个字使用特殊字体
+       * 其他文字使用系统默认字体
+       */
+      }
+
+      /**
+     * 使用 CSS 的 ::first-line 或特定类名来应用字体
+     * 这里使用 .harmony-text 类来标记需要应用鸿蒙字体的文字
+     */
+      .harmony-text {
+        font-family: 'HarmonyOS Sans SC Bold', sans-serif;
+        font-weight: bold;
+        /* 
+       * 确保字体渲染质量
+       * -webkit-font-smoothing: antialiased 在 macOS/iOS 上提供更好的字体平滑
+       * text-rendering: optimizeLegibility 优化文字渲染，特别是小字号
+       */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        letter-spacing: 0.02em;
+      }
+
+      .comparison {
+        margin-top: 40px;
+        padding-top: 40px;
+        border-top: 2px solid #eee;
+      }
+
+      .comparison-item {
+        margin-bottom: 30px;
+      }
+
+      .comparison-label {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+
+      .comparison-text {
+        font-size: 36px;
+        line-height: 1.5;
+      }
+
+      .default-font {
+        /* 使用系统默认字体 */
+      }
+
+      .info {
+        margin-top: 40px;
+        padding: 20px;
+        background: #f5f5f5;
+        border-radius: 10px;
+        font-size: 14px;
+        color: #666;
+        line-height: 1.8;
+      }
+
+      .info strong {
+        color: #333;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 40px 20px;
+        }
+
+        h1,
+        .comparison-text {
+          font-size: 32px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        <span class="harmony-text">引领AI出版新范式</span>
+      </h1>
+
+      <div class="comparison">
+        <div class="comparison-item">
+          <div class="comparison-label">使用鸿蒙字体：</div>
+          <div class="comparison-text harmony-text">引领AI出版新范式</div>
+        </div>
+
+        <div class="comparison-item">
+          <div class="comparison-label">使用系统默认字体：</div>
+          <div class="comparison-text default-font">引领AI出版新范式</div>
+        </div>
+      </div>
+
+      <div class="info">
+        <p><strong>说明：</strong></p>
+        <p>此页面展示了如何使用鸿蒙字体（HarmonyOS Sans SC Bold）来显示"引领AI出版新范式"这几个字。</p>
+        <p>通过 CSS 的 <code>@font-face</code> 规则加载字体文件，并使用 <code>.harmony-text</code> 类来应用字体。</p>
+        <p>字体文件使用 Fontmin 提取的子集版本，只包含目标文字，文件大小从 8MB 减小到约 10KB（WOFF2）。</p>
+        <p>字体文件位于 <code>public/font-subset/</code> 目录。</p>
+        <p><strong>提取字体子集：</strong>运行 <code>npm run extract-font</code> 可以重新提取字体子集。</p>
+      </div>
+    </div>
+  </body>
+</html>

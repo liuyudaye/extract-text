@@ -1,70 +1,75 @@
-# Extract Text - 字体文件文字提取工具
+# 字体子集提取工具
 
-从字体文件（TTF、OTF 等）中提取所有包含的字符。
+使用 Fontmin 提取字体子集，针对"引领AI出版新范式"这几个字优化字体文件大小。
+
+## 功能
+
+从完整的字体文件中提取只包含特定文字的字体子集，可以大大减小文件大小（从 8MB 减小到约 10KB）。
 
 ## 安装
 
 ```bash
-npm install
-npm run build
+pnpm install
 ```
 
 ## 使用方法
 
-### 命令行工具
+### 提取字体子集
 
 ```bash
-# 基本用法
-npm run build
-node dist/cli.js <字体文件路径>
-
-# 输出到文件
-node dist/cli.js font.ttf --output output.txt
-
-# JSON 格式输出
-node dist/cli.js font.ttf --format json --output output.json
-
-# 显示字体信息
-node dist/cli.js font.ttf --info
-
-# 包含控制字符
-node dist/cli.js font.ttf --include-control
+# 提取字体子集（只包含"引领AI出版新范式"）
+pnpm run extract-font
 ```
 
-### 编程方式使用
+提取后的字体文件会保存在 `public/font-subset/` 目录，包含：
+- **WOFF2 格式**（约 10KB，推荐使用）
+- WOFF 格式（约 33KB）
+- TTF 格式（约 33KB）
+- CSS 文件（包含 @font-face 声明）
 
-```typescript
-import { extractTextFromFont } from './src/index.js';
+## 在 Web 中使用
 
-const fontInfo = await extractTextFromFont('font.ttf', {
-  printableOnly: true,
-  outputFormat: 'text'
-});
+### 方式 1：引入生成的 CSS
 
-console.log(fontInfo.extractedText);
-console.log(`字符数：${fontInfo.glyphCount}`);
+```html
+<link rel="stylesheet" href="./font-subset/HarmonyOS_SansSC_Bold.css">
 ```
 
-## API
+### 方式 2：直接使用 @font-face
 
-### `extractTextFromFont(fontPath: string, options?: ExtractOptions): Promise<FontInfo>`
+```css
+@font-face {
+  font-family: 'HarmonyOS Sans SC Bold';
+  src: url('./font-subset/HarmonyOS_SansSC_Bold.woff2') format('woff2'),
+       url('./font-subset/HarmonyOS_SansSC_Bold.woff') format('woff'),
+       url('./font-subset/HarmonyOS_SansSC_Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
 
-从字体文件中提取文字。
+.harmony-text {
+  font-family: 'HarmonyOS Sans SC Bold', sans-serif;
+}
+```
 
-**参数：**
-- `fontPath`: 字体文件路径
-- `options`: 提取选项
-  - `printableOnly`: 是否只提取可打印字符（默认：true）
-  - `includeControlChars`: 是否包含控制字符（默认：false）
-  - `filter`: 自定义字符过滤函数
-  - `outputFormat`: 输出格式，'text' | 'json' | 'array'（默认：'text'）
+### HTML 示例
 
-**返回：**
-- `FontInfo` 对象，包含字体信息和提取的字符
+```html
+<span class="harmony-text">引领AI出版新范式</span>
+```
+
+完整示例请查看 `public/index.html`。
+
+## 优势
+
+- ✅ 文件大小从 8MB 减小到约 10KB（WOFF2）
+- ✅ 加载速度大幅提升
+- ✅ 只包含需要的字符，减少带宽消耗
+- ✅ 支持多种字体格式（WOFF2、WOFF、TTF）
 
 ## 技术栈
 
 - TypeScript
 - Node.js
-- opentype.js（字体解析库）
-
+- Fontmin（字体子集化工具）
